@@ -4,15 +4,20 @@ import './Panel.css'
 import { useState } from 'react'
 
 function Panel() {
-    const [advice, setAdvice] = useState('')
-    const [adviceId, setAdviceId] = useState('')
+    const [adviceId, setAdviceId] = useState('222')
+    const [advice, setAdvice] = useState('Everything in moderation!')
 
     async function fetchAdvice() {
         let response = await fetch('https://api.adviceslip.com/advice')
         let data = await response.json()
-        // console.log(data.slip.advice)
         setAdviceId(data.slip.id)
         setAdvice(data.slip.advice)
+        localStorage.setItem('id', `${data.slip.id}`)
+        localStorage.setItem('advice', `${data.slip.advice}`)
+    }
+    if(adviceId === '222' && advice === 'Everything in moderation!') {
+        setAdviceId(localStorage.getItem('id'))
+        setAdvice(localStorage.getItem('advice'))
     }
 
     return (
